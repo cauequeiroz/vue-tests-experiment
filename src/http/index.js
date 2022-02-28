@@ -1,21 +1,22 @@
 import axios from 'axios'
+import { API_DOMAIN } from './constants';
 
 export function getLeiloes () {
-  return axios.get('http://localhost:3000/leiloes')
+  return axios.get(API_DOMAIN + '/leiloes')
     .then(response => {
       return response.data
     })
 }
 
 export function getLeilao (id) {
-  return axios.get(`http://localhost:3000/leiloes/${id}`)
+  return axios.get(API_DOMAIN + `/leiloes/${id}`)
     .then(response => {
       return response.data
     })
 }
 
 export function getLances (id) {
-  return axios.get('http://localhost:3000/lances/', { params: { leilao_id: id } })
+  return axios.get(API_DOMAIN + '/lances/', { params: { leilao_id: id } })
     .then(response => {
       return response.data.map(
         l => {
@@ -27,12 +28,12 @@ export function getLances (id) {
 }
 
 export function createLance (lance) {
-  return axios.post('http://localhost:3000/lances', lance)
+  return axios.post(API_DOMAIN + '/lances', lance)
     .then(response => {
       return response.data.id
     })
 }
 
 export function createLeilao (leilao) {
-  return axios.post('http://localhost:3000/leiloes', leilao)
+  return axios.post(API_DOMAIN + '/leiloes', leilao)
 }
