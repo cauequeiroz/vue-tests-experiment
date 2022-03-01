@@ -34,16 +34,20 @@ const lances = [
   }
 ];
 
+const mockLeiloeiro = withLances => {
+  getLeilao.mockResolvedValueOnce(leilao);
+  getLances.mockResolvedValueOnce(withLances ? lances : []);
+
+  render(Leiloeiro, { props: {
+    id: 1
+  }});
+
+  return flushPromises();
+}
+
 describe("um leiloeiro", () => {
   test("deve exibir as informações do leilão", async () => {
-    getLeilao.mockResolvedValueOnce(leilao);
-    getLances.mockResolvedValueOnce([]);
-
-    render(Leiloeiro, { props: {
-      id: 1
-    }});
-
-    await flushPromises();
+    await mockLeiloeiro(false);
 
     expect(screen.getByText(leilao.produto)).toBeInTheDocument();
     expect(screen.getByText(leilao.descricao)).toBeInTheDocument();
@@ -53,79 +57,39 @@ describe("um leiloeiro", () => {
 
 describe("um leiloeiro que não possue lances", () => {
   test("deve exibir a mensagem de que não possui lances", async () => {
-    getLeilao.mockResolvedValueOnce(leilao);
-    getLances.mockResolvedValueOnce([]);
+    await mockLeiloeiro(false);
 
-    render(Leiloeiro, { props: {
-      id: 1
-    }});
-
-    await flushPromises();
     expect(screen.getByRole('alert')).toBeInTheDocument();
   });
 });
 
 describe("um leiloeiro que possue lances", () => {
   test("não deve exibir a mensagem de que não possui lances", async () => {
-    getLeilao.mockResolvedValueOnce(leilao);
-    getLances.mockResolvedValueOnce(lances);
+    await mockLeiloeiro(true);
 
-    render(Leiloeiro, { props: {
-      id: 1
-    }});
-
-    await flushPromises();
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 
   test("deve exibir a lista de lances", async () => {
-    getLeilao.mockResolvedValueOnce(leilao);
-    getLances.mockResolvedValueOnce(lances);
-
-    render(Leiloeiro, { props: {
-      id: 1
-    }});
-
-    await flushPromises();
+    await mockLeiloeiro(true);
 
     expect(screen.getAllByRole('lance')).toHaveLength(3);
   });
 
   test("deve exibir o valor do maior lance", async () => {
-    getLeilao.mockResolvedValueOnce(leilao);
-    getLances.mockResolvedValueOnce(lances);
-
-    render(Leiloeiro, { props: {
-      id: 1
-    }});
-
-    await flushPromises();
+    await mockLeiloeiro(true);
 
     expect(screen.getByRole('maior-lance').textContent).toContain(1099);
   });
 
   test("deve exibir o valor do menor lance", async () => {
-    getLeilao.mockResolvedValueOnce(leilao);
-    getLances.mockResolvedValueOnce(lances);
-
-    render(Leiloeiro, { props: {
-      id: 1
-    }});
-
-    await flushPromises();
+    await mockLeiloeiro(true);
 
     expect(screen.getByRole('menor-lance').textContent).toContain(1001);
   });
 
   test("deve conseguir adicionar um novo lance", async () => {
-    getLeilao.mockResolvedValueOnce(leilao);
-    getLances.mockResolvedValueOnce(lances);
-
-    render(Leiloeiro, { props: {
-      id: 1
-    }});
-
-    await flushPromises();
+    await mockLeiloeiro(true);
 
     await fireEvent.update(screen.getByRole('valor'), 1500);
     await fireEvent.click(screen.getByText('Dar lance!'));
