@@ -6,3 +6,5 @@ This repository hosts my experiments with unit testing on a Vue.js application. 
 - Unit test the http module
 - Increase components coverage
 
+![Screenshot](screenshot.png);
+
