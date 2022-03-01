@@ -6,7 +6,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text">$</span>
           </div>
-          <input type="number" step="1" class="form-control" v-model="valor" :placeholder="`Lance mínimo: R$${lanceMinimo}`">
+          <input type="number" step="1" class="form-control" role="valor" v-model="valor" :placeholder="`Lance mínimo: R$${lanceMinimo}`">
           <div class="input-group-append">
             <span class="input-group-text">.00</span>
           </div>

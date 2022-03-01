@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_DOMAIN } from './constants';
+import { API_DOMAIN } from './constants'
 
 export function getLeiloes () {
   return axios.get(API_DOMAIN + '/leiloes')
