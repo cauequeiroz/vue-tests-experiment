@@ -7,10 +7,10 @@
         <Lance ref="novoLance" :lanceMinimo="valorMinimoDoLance" v-on:novo-lance="onNovoLance"/>
         <div class="row mb-4 lances" v-if="existemLances">
           <div class="col-6">
-            <div class="menor-lance shadow p-3 bg-white rounded">Menor lance: <strong>R$ {{ menorLance }}</strong></div>
+            <div class="menor-lance shadow p-3 bg-white rounded" role="menor-lance">Menor lance: <strong>R$ {{ menorLance }}</strong></div>
           </div>
           <div class="col-6">
-            <div class="maior-lance shadow p-3 bg-white rounded">Maior lance: <strong>R$ {{ maiorLance }}</strong></div>
+            <div class="maior-lance shadow p-3 bg-white rounded" role="maior-lance">Maior lance: <strong>R$ {{ maiorLance }}</strong></div>
           </div>
         </div>
       </div>
@@ -19,7 +19,7 @@
         <div class="alert alert-dark" role="alert" v-if="!existemLances">
           Ainda não existem lances para esse leilão!
         </div>
-        <div class="shadow p-3 mb-5 bg-white rounded" v-for="lance in lances" :key="lance.valor">
+        <div class="shadow p-3 mb-5 bg-white rounded" v-for="lance in lances" role="lance" :key="lance.valor">
           <ul class="list-inline m-0">
             <li class="list-inline-item">Data: <strong>{{ lance.data.toLocaleString() }}</strong></li>
             <li class="list-inline-item">Valor: <strong>R$ {{ lance.valor }}</strong></li>
@@ -46,10 +46,10 @@ export default {
       return this.lances.length > 0
     },
     maiorLance () {
-      return Math.max(...this.lances.map(l => l.valor)) || 0
+      return Math.max(...this.lances.map(l => l.valor))
     },
     menorLance () {
-      return Math.min(...this.lances.map(l => l.valor)) || 0
+      return Math.min(...this.lances.map(l => l.valor))
     },
     valorMinimoDoLance () {
       if (!this.existemLances) {
